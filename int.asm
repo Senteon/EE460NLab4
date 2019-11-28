@@ -7,7 +7,7 @@
       LEA R1, loc             ;load R1 with address of x4000
       LDW R1, R1, #0          ;load R1 with x4000
       LDW R2, R1, #0          ;load R2 with contents of x4000
-      ADD R2, R2 #1           ;increment contents by 1
+      ADD R2, R2, #1          ;increment contents by 1
       STW R2, R1, #0          ;store R2 at x4000
 
       LDW R2, R6, #0

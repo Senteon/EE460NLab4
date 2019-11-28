@@ -1,3 +1,3 @@
 .ORIG x1A00
-HALT
+      HALT
 .END

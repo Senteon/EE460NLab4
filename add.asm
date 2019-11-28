@@ -14,7 +14,7 @@
       LDW R1, R0, #0
 
 loo   LDB R2, R1, #0
-      ADD R3, R2, #0
+      ADD R3, R3, R2
       ADD R1, R1, #1
       ADD R6, R6, #-1
       BRZP loo

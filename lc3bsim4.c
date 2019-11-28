@@ -364,6 +364,8 @@ void rdump(FILE * dumpsim_file) {
     printf("BUS          : 0x%0.4x\n", BUS);
     printf("MDR          : 0x%0.4x\n", CURRENT_LATCHES.MDR);
     printf("MAR          : 0x%0.4x\n", CURRENT_LATCHES.MAR);
+    printf("TEMP         : 0x%0.4x\n", CURRENT_LATCHES.TEMP);
+    printf("PSR          : 0x%0.4x\n", CURRENT_LATCHES.PSR);
     printf("CCs: N = %d  Z = %d  P = %d\n", CURRENT_LATCHES.N, CURRENT_LATCHES.Z, CURRENT_LATCHES.P);
     printf("Registers:\n");
     for (k = 0; k < LC_3b_REGS; k++)
@@ -1031,7 +1033,13 @@ void latch_datapath_values()
              int PSRLogicAnd = CURRENT_LATCHES.PSR & 0xFFF8;
              int PSRLogicOut = PSRLogicNZP | PSRLogicAnd;
              int PSRUPDATESel = CURRENT_LATCHES.MICROINSTRUCTION[PSRUPDATE];
-             if (PSRUPDATESel == 0) PSRUPDATEMuxOut = Low16bits(BUS);
+             if (PSRUPDATESel == 0)
+             {
+                   PSRUPDATEMuxOut = Low16bits(BUS);
+                   NEXT_LATCHES.N = mask1(PSRUPDATEMuxOut >> 2);
+                   NEXT_LATCHES.Z = mask1(PSRUPDATEMuxOut >> 1);
+                   NEXT_LATCHES.P = mask1(PSRUPDATEMuxOut);
+             }
              else if (PSRUPDATESel == 1) PSRUPDATEMuxOut = PSRLogicOut;
              NEXT_LATCHES.PSR = PSRUPDATEMuxOut;
         }
