@@ -1054,6 +1054,22 @@ void latch_datapath_values()
         }
         else NEXT_LATCHES.MAR = CURRENT_LATCHES.MAR;
 
+	  if (nextInstruction == 12)
+	  {
+		  NEXT_LATCHES.MAR = CURRENT_LATCHES.REGS[mask3(CURRENT_LATCHES.IR >> 6)];
+	  }
+	  else if (nextInstruction == 4)
+	  {
+		  if (mask1(CURRENT_LATCHES.IR >> 11) == 0)
+		  {
+			  NEXT_LATCHES.MAR = CURRENT_LATCHES.REGS[mask3(CURRENT_LATCHES.IR >> 6)];
+		  }
+		  else if (mask1(CURRENT_LATCHES.IR >> 11) == 1)
+		  {
+			  NEXT_LATCHES.MAR = CURRENT_LATCHES.PC + mask11(CURRENT_LATCHES.IR);
+		  }
+	  }
+
         if (CURRENT_LATCHES.MICROINSTRUCTION[LD_MDR] == 1)
         {
               if (CURRENT_LATCHES.MICROINSTRUCTION[MIO_EN] == 0)
